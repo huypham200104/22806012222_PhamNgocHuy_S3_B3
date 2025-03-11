@@ -1,0 +1,24 @@
+﻿@model _22806012222_PhamNgocHuy_S3_B3.Models.Category
+
+@{
+    ViewData["Title"] = "Add Category";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary">Add New Category</h2>
+
+    <form asp-action="Add" method="post">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Category Name</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Add Category</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<_22806012222_PhamNgocHuy_S3_B3.Models.Category>
+@{
+    ViewData["Title"] = "Category";
+}
+
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">Category List</h2>
+        <a class="btn btn-success" asp-action="Add"><i class="fas fa-plus"></i> Add Category</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any()) // Kiểm tra Model != null
+                    {
+                        @foreach (var category in Model)
+                        {
+                            <tr>
+                                <td>@category.Id</td>
+                                <td>@category.Name</td>
+                                <td class="text-center">
+                                    <a class="btn btn-info btn-sm" asp-action="Display" asp-route-id="@category.Id">
+                                        <i class="fas fa-edit"></i> View
+                                    </a>
+                                    <a class="btn btn-warning btn-sm" asp-action="Update" asp-route-id="@category.Id">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@category.Id" 
+                                       onclick="return confirm('Are you sure you want to delete this category?');">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center">No categories available</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<br />
+<a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Back to Home</a>

@@ -1,0 +1,21 @@
+﻿@model _22806012222_PhamNgocHuy_S3_B3.Models.Category
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<div class="container mt-4">
+    <h2 class="text-danger">Delete Category</h2>
+    <p>Are you sure you want to delete this category?</p>
+
+    <dl class="row">
+        <dt class="col-sm-3">Category Name:</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+    </dl>
+
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

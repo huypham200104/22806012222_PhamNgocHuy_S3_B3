@@ -1,0 +1,21 @@
+﻿@model _22806012222_PhamNgocHuy_S3_B3.Models.Category
+
+@{
+    ViewData["Title"] = "Update Category";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary">Update Category</h2>
+    <form asp-action="Update" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Category Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>

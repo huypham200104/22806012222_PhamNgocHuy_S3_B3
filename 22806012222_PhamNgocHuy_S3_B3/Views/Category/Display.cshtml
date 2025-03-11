@@ -1,0 +1,16 @@
+﻿@model _22806012222_PhamNgocHuy_S3_B3.Models.Category
+
+@{
+    ViewData["Title"] = "Category Details";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary">Category Details</h2>
+
+    <dl class="row">
+        <dt class="col-sm-3">Category Name:</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+    </dl>
+
+    <a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>
+</div>
