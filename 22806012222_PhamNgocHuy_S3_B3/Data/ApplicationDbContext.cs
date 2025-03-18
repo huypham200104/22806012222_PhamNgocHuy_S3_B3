@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _22806012222_PhamNgocHuy_S3_B3.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

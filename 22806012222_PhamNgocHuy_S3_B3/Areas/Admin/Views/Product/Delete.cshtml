@@ -1,0 +1,14 @@
+﻿@model _22806012222_PhamNgocHuy_S3_B3.Models.Product
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div style="margin: 20px auto; width: 90%; font-family: Arial, sans-serif;">
+    <h2 style="color: #0077CC;">Delete Product</h2>
+
+    <form action="@Url.Action("DeleteConfirmed")" method="post">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <p style="margin: 15px 0;">Are you sure you want to delete @Model.Name?</p>
+        <button type="submit" style="padding: 8px 15px; background-color: #DC3545; color: white; border: none; cursor: pointer;">Delete</button>
+    </form>
+</div>
