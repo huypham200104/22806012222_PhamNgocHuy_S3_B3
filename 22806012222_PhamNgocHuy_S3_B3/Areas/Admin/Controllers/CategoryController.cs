@@ -1,11 +1,15 @@
 ﻿using _22806012222_PhamNgocHuy_S3_B3.Models;
 using _22806012222_PhamNgocHuy_S3_B3.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace _22806012222_PhamNgocHuy_S3_B3.Controllers
+namespace _22806012222_PhamNgocHuy_S3_B3.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
+        
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
 

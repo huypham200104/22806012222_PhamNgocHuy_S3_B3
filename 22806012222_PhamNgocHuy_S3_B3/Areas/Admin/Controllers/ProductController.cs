@@ -33,18 +33,37 @@ namespace _22806012222_PhamNgocHuy_S3_B3.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Product product)
+        public async Task<IActionResult> Add(Product product, IFormFile? ImageUrl)
         {
+            if (ImageUrl != null && ImageUrl.Length > 0)
+            {
+                // Tạo tên file ngẫu nhiên
+                var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(ImageUrl.FileName)}";
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                // Lưu file vào thư mục
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await ImageUrl.CopyToAsync(stream);
+                }
+
+                // Gán đường dẫn ảnh vào sản phẩm
+                product.ImageUrl = "/images/" + fileName;
+            }
+
             if (ModelState.IsValid)
             {
                 await _productRepository.AddAsync(product);
                 return RedirectToAction(nameof(Index));
             }
 
+            // Nếu có lỗi, giữ lại danh sách danh mục để hiển thị lại form
             var categories = await _categoryRepository.GetAllAsync();
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
+
             return View(product);
         }
+
 
         public async Task<IActionResult> Display(int id)
         {
@@ -90,7 +109,7 @@ namespace _22806012222_PhamNgocHuy_S3_B3.Areas.Admin.Controllers
             // Nếu có ảnh mới, lưu vào wwwroot/images
             if (ImageUrl != null && ImageUrl.Length > 0)
             {
-                var fileName = $"{Guid.NewGuid()}_{ImageUrl.FileName}";
+                var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(ImageUrl.FileName)}";
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -101,17 +120,22 @@ namespace _22806012222_PhamNgocHuy_S3_B3.Areas.Admin.Controllers
                 // Cập nhật đường dẫn ảnh mới
                 product.ImageUrl = "/images/" + fileName;
             }
+            else
+            {
+                // Giữ nguyên ảnh cũ nếu không tải ảnh mới
+                product.ImageUrl = product.ImageUrl;
+            }
 
             // Cập nhật thông tin sản phẩm
             product.Name = model.Name;
             product.Price = model.Price;
             product.Description = model.Description;
             product.CategoryId = model.CategoryId;
+            product.Images = model.Images;
 
             await _productRepository.UpdateAsync(product);
             return RedirectToAction(nameof(Index));
         }
-
 
         public async Task<IActionResult> Delete(int id)
         {

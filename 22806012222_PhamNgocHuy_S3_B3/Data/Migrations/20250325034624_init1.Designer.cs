@@ -9,11 +9,11 @@ using _22806012222_PhamNgocHuy_S3_B3.Data;
 
 #nullable disable
 
-namespace _22806012222_PhamNgocHuy_S3_B3.Data.Migrations
+namespace _22806012222_PhamNgocHuy_S3_B3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250318011515_ExtendIdentityUser")]
-    partial class ExtendIdentityUser
+    [Migration("20250325034624_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -251,6 +251,73 @@ namespace _22806012222_PhamNgocHuy_S3_B3.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("_22806012222_PhamNgocHuy_S3_B3.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ShippingAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("_22806012222_PhamNgocHuy_S3_B3.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("_22806012222_PhamNgocHuy_S3_B3.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -357,6 +424,42 @@ namespace _22806012222_PhamNgocHuy_S3_B3.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("_22806012222_PhamNgocHuy_S3_B3.Models.Order", b =>
+                {
+                    b.HasOne("_22806012222_PhamNgocHuy_S3_B3.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("_22806012222_PhamNgocHuy_S3_B3.Models.OrderDetail", b =>
+                {
+                    b.HasOne("_22806012222_PhamNgocHuy_S3_B3.Models.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("_22806012222_PhamNgocHuy_S3_B3.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("_22806012222_PhamNgocHuy_S3_B3.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("_22806012222_PhamNgocHuy_S3_B3.Models.Product", b =>
                 {
                     b.HasOne("_22806012222_PhamNgocHuy_S3_B3.Models.Category", "Category")
@@ -382,6 +485,11 @@ namespace _22806012222_PhamNgocHuy_S3_B3.Data.Migrations
             modelBuilder.Entity("_22806012222_PhamNgocHuy_S3_B3.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("_22806012222_PhamNgocHuy_S3_B3.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("_22806012222_PhamNgocHuy_S3_B3.Models.Product", b =>

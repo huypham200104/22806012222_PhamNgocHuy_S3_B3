@@ -1,7 +1,9 @@
 ﻿@model _22806012222_PhamNgocHuy_S3_B3.Models.Product
 @using Microsoft.AspNetCore.Mvc.Rendering
+
 @{
-    ViewData["Title"] = "Add";
+    ViewData["Title"] = "Edit Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div style="margin: 20px auto; width: 90%; font-family: Arial, sans-serif;">
@@ -36,9 +38,9 @@
             </select>
         </div>
 
-        <div style="margin-bottom: 15px;">
-            <label for="ImageUrl" style="font-weight: bold; display: block;">Product Image</label>
-            <input type="file" id="ImageUrl" name="ImageUrl" style="width: 100%; padding: 5px;" />
+        <div class="form-group">
+            <label asp-for="ImageUrl">Upload Image</label>
+            <input type="file" name="ImageUrl" class="form-control" />
         </div>
 
         <button type="submit" style="padding: 8px 15px; background-color: #28A745; color: white; border: none; cursor: pointer;">Add</button>

@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model _22806012222_PhamNgocHuy_S3_B3.Models.Order
+
+@inject _22806012222_PhamNgocHuy_S3_B3.Data.ApplicationDbContext _context
+@inject Microsoft.AspNetCore.Identity.UserManager<_22806012222_PhamNgocHuy_S3_B3.Models.ApplicationUser> _userManager
+
+@{
+    var user = await _userManager.GetUserAsync(User);
+    var cartItems = await _context.OrderDetails
+        .Where(od => od.UserId == user.Id && od.OrderId == null)
+        .Include(od => od.Product)
+        .ToListAsync();
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Thanh toán</h2>
+
+    <div class="row">
+        <div class="col-md-7">
+            <form asp-action="Checkout" method="post" class="needs-validation" novalidate>
+                <div class="form-group mb-3">
+                    <label asp-for="ShippingAddress" class="form-label fw-bold">Địa chỉ giao hàng</label>
+                    <input asp-for="ShippingAddress" class="form-control" placeholder="Nhập địa chỉ giao hàng của bạn" required />
+                    <div class="invalid-feedback">
+                        Vui lòng nhập địa chỉ giao hàng.
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Notes" class="form-label fw-bold">Ghi chú</label>
+                    <textarea asp-for="Notes" class="form-control" rows="4" placeholder="Thêm bất kỳ hướng dẫn đặc biệt nào..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Đặt hàng</button>
+            </form>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h4 class="mb-0">Tóm tắt đơn hàng</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in cartItems)
+                            {
+                                <tr>
+                                    <td>@item.Product.Name</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@(item.Price.ToString("C"))</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="fw-bold">
+                                <td colspan="2">Tổng cộng</td>
+                                <td>@cartItems.Sum(i => i.Price * i.Quantity).ToString("C")</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}

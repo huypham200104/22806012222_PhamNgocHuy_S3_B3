@@ -1,0 +1,71 @@
+﻿@model List<_22806012222_PhamNgocHuy_S3_B3.Models.OrderDetail>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Giỏ hàng</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Tổng</th>
+                            <th scope="col">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Product.Name</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Price.ToString("C")</td>
+                                <td>@((item.Price * item.Quantity).ToString("C"))</td>
+                                <td>
+                                    <a asp-action="RemoveFromCart"
+                                       asp-route-productId="@item.ProductId"
+                                       class="btn btn-danger btn-sm">
+                                        Xóa
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    @if (Model.Any())
+                    {
+                        <tfoot>
+                            <tr class="table-success">
+                                <td colspan="3" class="fw-bold">Tổng cộng</td>
+                                <td class="fw-bold">@Model.Sum(i => i.Price * i.Quantity).ToString("C")</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    }
+                </table>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info text-center" role="alert">
+                    Giỏ hàng của bạn đang trống.
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="mt-4 text-end">
+            <a asp-action="Checkout" class="btn btn-primary btn-lg">
+                Tiến hành thanh toán
+            </a>
+        </div>
+    }
+</div>

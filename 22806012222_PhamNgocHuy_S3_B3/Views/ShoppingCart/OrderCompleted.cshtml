@@ -1,0 +1,19 @@
+﻿@model int
+@{
+    ViewData["Title"] = "Đặt Hàng Thành Công";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
+            <h1 class="card-title text-success mb-4">Đặt Hàng Thành Công!</h1>
+            <p class="card-text lead">Cảm ơn bạn đã đặt hàng.</p>
+            <p class="card-text">Đơn hàng của bạn với ID <strong>#@Model</strong> đã được đặt thành công.</p>
+            <div class="mt-4">
+                <a asp-action="Index" asp-controller="ShoppingCart" class="btn btn-primary">Quay Lại Giỏ Hàng</a>
+                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary">Về Trang Chủ</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,16 +7,19 @@ using _22806012222_PhamNgocHuy_S3_B3.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
+
+// Bai 5
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+
+
 builder.Services.AddControllersWithViews();
-
-
-
-
-
-
-
-
-
 
 // Cấu hình Identity với ApplicationUser
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -63,6 +66,9 @@ else
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+// Bai 5
+app.UseSession();
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles(); // Thay MapStaticAssets() bằng UseStaticFiles() nếu không dùng StaticFiles riêng
